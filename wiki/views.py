@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
+from django.contrib.auth import logout
 
 from wiki.models import Page
 
@@ -26,3 +27,8 @@ class PageDetailView(DetailView):
         return render(request, 'page.html', {
           'page': page
         })
+
+
+def logout_view(request):
+    logout(request)
+    # Redirect to a success page.
