@@ -28,7 +28,7 @@ urlpatterns = [
 
     #Accounts
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('accounts.urls')),
+    path('accounts/', include('accounts.urls')),
 
     # Wiki App
     path('', include('wiki.urls')),
