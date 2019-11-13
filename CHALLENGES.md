@@ -39,30 +39,30 @@
 
 #### `makewiki/urls.py`
 
-- [ ] Uncomment the `path()` for the `wiki` app below. Use it to direct any request (except `/admin` URLs) to the the `wiki` app's URL configuration. Use the above docstring to guide you if you feel stuck.
-- [ ] Make sure Django doesn't give you any warnings or errors when you execute `python manage.py runserver`.
+- [x] Uncomment the `path()` for the `wiki` app below. Use it to direct any request (except `/admin` URLs) to the the `wiki` app's URL configuration. Use the above docstring to guide you if you feel stuck.
+- [x] Make sure Django doesn't give you any warnings or errors when you execute `python manage.py runserver`.
 
 #### `wiki/views.py`
 
 `PageListView`:
 
-- [ ] On `GET`, display a homepage that shows all Pages in your wiki.
-- [ ]  Replace the CHALLENGE text with a descriptive docstring for `PageListView`.
-- [ ] Replace `pass` below with the code to render a template named `list.html`.
+- [x] On `GET`, display a homepage that shows all Pages in your wiki.
+- [x]  Replace the CHALLENGE text with a descriptive docstring for `PageListView`.
+- [x] Replace `pass` below with the code to render a template named `list.html`.
 
 #### `wiki/urls.py`
 
- - [ ] Refactor the URL named `wiki-list-page` and point it to the root route (`/`).
+ - [x] Refactor the URL named `wiki-list-page` and point it to the root route (`/`).
       - Make sure Django doesn't give you any warnings or errors when you execute `python manage.py runserver`.
       - Test by visiting http://127.0.0.1:8000/.
-- [ ] Refactor the URL named `wiki-details-page` to show the `DetailsView` for any `Page` that exists.
+- [x] Refactor the URL named `wiki-details-page` to show the `DetailsView` for any `Page` that exists.
       - Use the `slug` field in the `Page` model to accomplish this.
       - DO NOT CHANGE the `name` argument.
       - Test by visiting http://127.0.0.1:8000/title-slug in your browser.
 
 #### `templates/base.html`
 
-- [ ]  `📓 Pages`: Replace `#` with the `url` template tag.
+- [x]  `📓 Pages`: Replace `#` with the `url` template tag.
 
 ---
 
