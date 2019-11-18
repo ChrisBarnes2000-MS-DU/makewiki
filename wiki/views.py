@@ -1,8 +1,11 @@
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import FormView
+from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
+from django.urls import reverse_lazy
 from django.shortcuts import render
+from django.utils import timezone
 
 from wiki.forms import PageForm
 from wiki.models import Page
@@ -34,5 +37,16 @@ class PageCreateView(FormView):
     from_class = PageForm
     success_url = '/'
 
-    def post(self, request):
-        pass
+    def get(self, request, *args, **kwargs):
+        context = {'form': PageForm()}
+        return render(request, 'create.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = PageForm(request.POST)
+        if form.is_valid():
+            page = form.save(commit=False)
+            page.author = request.user
+            page.published_date = timezone.now()
+            page.save()
+            return HttpResponseRedirect(reverse_lazy('wiki-details-page', args=[page.slug]))
+        return render(request, 'create.html', {'form': form})
