@@ -2,10 +2,21 @@ body {
     background: lightgrey url("images/background.jpg") center;
 }
 
-h3{
+h2, h3{
     color: lightcoral;
 }
 
 p {
     color: white;
+}
+
+label {
+    color: white;
+}
+
+.fa-edit{
+    margin-top: 0.5em;
+    margin-left: 2em;
+    font-size: large;
+    color: red;
 }
