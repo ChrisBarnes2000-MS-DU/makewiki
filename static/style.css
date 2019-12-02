@@ -1,0 +1,11 @@
+body {
+    background: lightgrey url("images/background.jpg") center;
+}
+
+h3{
+    color: lightcoral;
+}
+
+p {
+    color: white;
+}
