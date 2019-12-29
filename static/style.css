@@ -11,18 +11,18 @@ p {
 }
 
 label {
+    font-size: x-large;
     color: white;
 }
 
 .fa-edit {
-    margin-top: 0.3em;
+    margin-top: 0.2em;
     margin-left: 0.5em;
-    font-size: large;
+    font-size: x-large;
     color: red;
 }
 
 .fa-trash {
-    margin-left: 0.5em;
-    font-size: large;
+    font-size: xx-large;
     color: red;
 }
