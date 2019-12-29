@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 
 class Page(models.Model):
     """ Represents a single wiki page. """
+    objects = models.Manager()
     title = models.CharField(max_length=settings.WIKI_PAGE_TITLE_MAX_LENGTH, unique=True,
                             help_text="Title of your page.")
     author = models.ForeignKey(User, on_delete=models.PROTECT,

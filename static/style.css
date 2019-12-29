@@ -14,9 +14,15 @@ label {
     color: white;
 }
 
-.fa-edit{
-    margin-top: 0.5em;
-    margin-left: 2em;
+.fa-edit {
+    margin-top: 0.3em;
+    margin-left: 0.5em;
+    font-size: large;
+    color: red;
+}
+
+.fa-trash {
+    margin-left: 0.5em;
     font-size: large;
     color: red;
 }
