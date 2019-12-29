@@ -1,11 +1,7 @@
 from django.views.generic import CreateView, DetailView, ListView, UpdateView, DeleteView
-from django.http import HttpResponseRedirect
 from django.contrib.auth import logout
 from django.urls import reverse_lazy
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils import timezone
 
-from wiki.forms import PageForm
 from wiki.models import Page
 
 def logout_view(request):
@@ -27,9 +23,17 @@ class PageCreateView(CreateView):
     model = Page
     fields = ['title', 'content']
 
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
 class PageEditView(UpdateView):
     model = Page
     fields = ['title', 'content']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
 
 class PageDeleteView(DeleteView):
     model = Page
