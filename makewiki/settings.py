@@ -27,7 +27,8 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', 'makewiki-cb.herokuapp.com', '127.0.0.1', 'habitualhabits.club', '0.0.0.0']
+ALLOWED_HOSTS = ['localhost', 'makewiki-cb.herokuapp.com', '127.0.0.1',
+                 'django-testing.dev.habitualhabits.club', '0.0.0.0']
 
 DEFAULT_LOGOUT_URL = '/'
 
