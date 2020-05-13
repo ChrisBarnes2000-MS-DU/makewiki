@@ -50,36 +50,7 @@ INSTALLED_APPS = [
     'storages',
 
     'accounts',
-    'wiki'
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.amazon',
-    # 'allauth.socialaccount.providers.auth0',
-    # 'allauth.socialaccount.providers.discord',
-    # 'allauth.socialaccount.providers.dropbox',
-    # 'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.instagram',
-    # 'allauth.socialaccount.providers.linkedin',
-    # 'allauth.socialaccount.providers.linkedin_oauth2',
-    # 'allauth.socialaccount.providers.microsoft',
-    # 'allauth.socialaccount.providers.paypal',
-    # 'allauth.socialaccount.providers.patreon',
-    # 'allauth.socialaccount.providers.reddit',
-    # 'allauth.socialaccount.providers.robinhood',
-    # 'allauth.socialaccount.providers.slack',
-    # 'allauth.socialaccount.providers.spotify',
-    # 'allauth.socialaccount.providers.steam',
-    # 'allauth.socialaccount.providers.stripe',
-    # 'allauth.socialaccount.providers.tumblr',
-    # 'allauth.socialaccount.providers.twitch',
-    # 'allauth.socialaccount.providers.twitter',
-    # 'allauth.socialaccount.providers.vimeo',
-    # 'allauth.socialaccount.providers.vimeo_oauth2',
-    # 'allauth.socialaccount.providers.windowslive',
+    'wiki',
 ]
 
 
@@ -96,24 +67,10 @@ LOGOUT_REDIRECT_URL = "/"
 
 DEFAULT_LOGOUT_URL = '/'
 
-# Used by all_auth
-SITE_ID = 1
-AUTH_USER_MODEL = 'Users.CustomUser'
-
-ACCOUNT_AUTHENTICATION_METHOD = 'email'
-ACCOUNT_USER_MODEL_USERNAME_FIELD = None
-ACCOUNT_USERNAME_REQUIRED = False
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
-ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
-ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # 1 day in seconds
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
-
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 # Password validation
