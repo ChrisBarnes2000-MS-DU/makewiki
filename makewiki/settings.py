@@ -13,26 +13,23 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from django.core.exceptions import ImproperlyConfigured
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+
+# -------------------------{DJANGO SETTINGS}----------------------------------------------
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get(
+ALLOWED_HOSTS = ['makewiki-cb.herokuapp.com', 'django-testing.dev.habitualhabits.club']
+SECRET_KEY = os.getenv(
     "SECRET_KEY") or ImproperlyConfigured("SECRET_KEY not set")
+DEBUG = False
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+ROOT_URLCONF = 'makewiki.urls'
+WSGI_APPLICATION = 'makewiki.wsgi.application'
 
-ALLOWED_HOSTS = ['localhost', 'makewiki-cb.herokuapp.com', '127.0.0.1',
-                 'django-testing.dev.habitualhabits.club', '0.0.0.0']
-
-DEFAULT_LOGOUT_URL = '/'
-
-# Application definition
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'America/Los_Angeles'
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,24 +37,166 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
+    'django.contrib.postgres',
 
-    # 'rest_framework',
+    'whitenoise.runserver_nostatic',
+    'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'compressor',
+    'rest_framework',
+    'corsheaders',
+    'debug_toolbar',
+    'imagekit',
+    'storages',
+
     'accounts',
     'wiki'
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.amazon',
+    # 'allauth.socialaccount.providers.auth0',
+    # 'allauth.socialaccount.providers.discord',
+    # 'allauth.socialaccount.providers.dropbox',
+    # 'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.instagram',
+    # 'allauth.socialaccount.providers.linkedin',
+    # 'allauth.socialaccount.providers.linkedin_oauth2',
+    # 'allauth.socialaccount.providers.microsoft',
+    # 'allauth.socialaccount.providers.paypal',
+    # 'allauth.socialaccount.providers.patreon',
+    # 'allauth.socialaccount.providers.reddit',
+    # 'allauth.socialaccount.providers.robinhood',
+    # 'allauth.socialaccount.providers.slack',
+    # 'allauth.socialaccount.providers.spotify',
+    # 'allauth.socialaccount.providers.steam',
+    # 'allauth.socialaccount.providers.stripe',
+    # 'allauth.socialaccount.providers.tumblr',
+    # 'allauth.socialaccount.providers.twitch',
+    # 'allauth.socialaccount.providers.twitter',
+    # 'allauth.socialaccount.providers.vimeo',
+    # 'allauth.socialaccount.providers.vimeo_oauth2',
+    # 'allauth.socialaccount.providers.windowslive',
+]
+
+
+# -------------------------{APP SETTINGS}----------------------------------------------
+# wiki app settings
+WIKI_PAGE_TITLE_MAX_LENGTH = 600
+
+
+
+# -------------------------{AUTH/ACCOUNT SETTINGS}----------------------------------------------
+# Where to redirect during authentication
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+
+DEFAULT_LOGOUT_URL = '/'
+
+# Used by all_auth
+SITE_ID = 1
+AUTH_USER_MODEL = 'Users.CustomUser'
+
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 7
+ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 5
+ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 86400  # 1 day in seconds
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+# Password validation
+# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
+
+
+
+# -------------------------{DATABASE SETTINGS}----------------------------------------------
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME':  os.getenv("DB_NAME"),
+        'USER':  os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
+    }
+}
+
+# -------------------------{HTML SETTINGS}----------------------------------------------
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO',
+                           'https')   # Required for Heroku
+
+# django-cors-headers
+# https://github.com/adamchainz/django-cors-headers
+CORS_ORIGIN_WHITELIST = [
+    "https://example.com",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000"
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    #  Caching Middleware
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
-ROOT_URLCONF = 'makewiki.urls'
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'habitual_habits_cache',
+#     }
+# }
+
+# djangorestframework
+# https://www.django-rest-framework.org/
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAdminUser',
+    ]
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    # 'DEFAULT_PERMISSION_CLASSES': [
+    #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    # ],
+}
 
 
 TEMPLATES = [
@@ -81,89 +220,84 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'makewiki.wsgi.application'
+# -------------------------{EMAIL SETTINGS}----------------------------------------------
+ADMINS = [
+    ('Chris', 'christopher.barnes@students.makeschool.com'),
+]
 
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = os.getenv('EMAIL_ACCOUNT')
+# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-# if os.environ.get("CAPROVER") is True:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':  os.getenv("DB_NAME"),
-        'USER':  os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
-    }
-}
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': os.path.join(BASE_DIR, 'wiki.sqlite3'),
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': True,
+#     'formatters': {
+#         'verbose': {
+#             'format': '%(levelname)s [%(asctime)s] %(module)s %(message)s'
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple'
+#         },
+#         'file': {
+#             'class': 'logging.handlers.RotatingFileHandler',
+#             'formatter': 'verbose',
+#             'filename': '/var/www/logs/ibiddjango.log',
+#             'maxBytes': 1024000,
+#             'backupCount': 3,
+#         },
+#         'mail_admins': {
+#             'level': 'ERROR',
+#             'class': 'django.utils.log.AdminEmailHandler'
 #         }
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['file', 'console','mail_admins'],
+#             'propagate': True,
+#             'level': 'DEBUG',
+#         },
 #     }
+# }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
-
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
-
-LANGUAGE_CODE = 'en-us'
-
-TIME_ZONE = 'America/Los_Angeles'
-
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = True
-
-
-# django-cors-headers
-# https://github.com/adamchainz/django-cors-headers
-CORS_ORIGIN_WHITELIST = [
-    "https://example.com",
-    "http://localhost:8000",
-    "http://127.0.0.1:8000"
-]
-
-
-# djangorestframework
-# https://www.django-rest-framework.org/
-REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ]
-}
-
+# -------------------------{STATIC SETTINGS}----------------------------------------------
 # django.contrib.staticfiles
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 # http://whitenoise.evans.io/en/stable/django.html
+# USE_S3 = os.getenv('USE_S3', False)
+
+# if USE_S3:
+# aws settings
+# AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+# AWS_DEFAULT_ACL = None
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.us-east-2.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+# # s3 Static settings
+# AWS_STATIC_LOCATION = 'Static'
+# STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, AWS_STATIC_LOCATION)
+# STATICFILES_STORAGE = 'Habitual_Habits.storage_backends.StaticStorage'
+# # s3 public media settings
+# AWS_PUBLIC_MEDIA_LOCATION = 'media/public'
+# DEFAULT_FILE_STORAGE = 'Habitual_Habits.storage_backends.PublicMediaStorage'
+# # s3 private media settings
+# AWS_PRIVATE_MEDIA_LOCATION = 'media/private'
+# PRIVATE_FILE_STORAGE = 'Habitual_Habits.storage_backends.PrivateMediaStorage'
+# else:
+
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-STATIC_HOST = os.environ.get('DJANGO_STATIC_HOST', '')
+STATIC_HOST = os.getenv('DJANGO_STATIC_HOST', '')
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
@@ -199,22 +333,7 @@ COMPRESS_FILTERS = {
     ]
 }
 
-# wiki app settings
-WIKI_PAGE_TITLE_MAX_LENGTH = 600
-
-
-# Where to redirect during authentication
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
-
-# Required for Heroku
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
-
-# PROTIP:
-# Need to override settings? Create a local_settings.py file
-# in this directory, and add settings there.
-# try:
-#     from makewiki.local_settings import *
-# except ImportError:
-#     pass
+try:
+    from makewiki.local_settings import *
+except ImportError:
+    pass
