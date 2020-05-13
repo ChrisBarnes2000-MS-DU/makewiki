@@ -50,7 +50,7 @@ WORKDIR $PROJECT_PATH
 COPY . $PROJECT_PATH
 
 # Open port 80 to traffic.
-EXPOSE 8080 80 443
+EXPOSE 8000 80 443
 
 # Run a startup script in the specified directory.
 # HEALTHCHECK CMD curl --fail http://localhost:5000/ || exit 1
